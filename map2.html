@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>COVID Cases in 2020</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script>
+        mapboxgl.accessToken =
+            'pk.eyJ1IjoiamFrb2J6aGFvIiwiYSI6ImNpcms2YWsyMzAwMmtmbG5icTFxZ3ZkdncifQ.P9MBej1xacybKcDN_jehvw';
+        let map = new mapboxgl.Map({
+            container: 'map', // container ID
+            style: 'mapbox://styles/mapbox/dark-v10',
+            zoom: 1, // starting zoom
+            minZoom: 4, // minimum zoom level of the map
+            center: [-98.5795, 39.8283] // starting center
+        });
+        const grades = [1500, 3000, 6000, 8000, 10000, 15000, 30000, 60000],
+            colors = ['rgb(247,252,253)', 'rgb(224,236,244)', 'rgb(191,211,230)', 'rgb(158,188,218)', 'rgb(140,150,198)', 'rgb(140,107,177)', 'rgb(136,65,157)', 'rgb(129,15,124)'],
+            radii = [2, 4, 8, 10, 12, 15, 20, 25];
+        //load data to the map as new layers.
+        //map.on('load', function loadingData() {
+        map.on('load', () => { //simplifying the function statement: arrow with brackets to define a function
+
+            // when loading a geojson, there are two steps
+            // add a source of the data and then add the layer out of the source
+            map.addSource('cases', {
+                type: 'geojson',
+                data: 'us-covid-2020-counts.geojson'
+            });
+            map.addLayer({
+                'id': 'counts-point',
+                'type': 'circle',
+                'source': 'cases',
+                'paint': {
+                    // increase the radii of the circle as count value increases
+                    'circle-radius': {
+                        'property': 'cases',
+                        'stops': [
+                            [grades[0], radii[0]],
+                            [grades[1], radii[1]],
+                            [grades[2], radii[2]],
+                            [grades[3], radii[3]],
+                            [grades[4], radii[4]],
+                            [grades[5], radii[5]],
+                            [grades[6], radii[6]],
+                            [grades[7], radii[7]]
+                        ]
+                    },
+                    // change the color of the circle as count value increases
+                    'circle-color': {
+                        'property': 'cases',
+                        'stops': [
+                            [grades[0], colors[0]],
+                            [grades[1], colors[1]],
+                            [grades[2], colors[2]],
+                            [grades[3], colors[3]],
+                            [grades[4], colors[4]],
+                            [grades[5], colors[5]],
+                            [grades[6], colors[6]],
+                            [grades[7], colors[7]]
+                        ]
+                    },
+                    'circle-stroke-color': 'white',
+                    'circle-stroke-width': 1,
+                    'circle-opacity': 0.6
+                }
+            });
+            // click on tree to view counts in a popup
+            map.on('click', 'counts-point', (event) => {
+                new mapboxgl.Popup()
+                    .setLngLat(event.features[0].geometry.coordinates)
+                    .setHTML(`<strong>Cases:</strong> ${event.features[0].properties.cases}`)
+                    .addTo(map);
+            });
+        });
+    </script>
+
+</body>
+
+</html>
