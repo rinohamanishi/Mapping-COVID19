@@ -19,11 +19,55 @@
             bottom: 0;
             width: 100%;
         }
+
+        /* the layout of the legend panel */
+        #legend {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 110px;
+            background: #ffffff92;
+            margin-right: 20px;
+            margin-bottom: 40px;
+            padding: 10px 20px 10px 10px;
+            border-radius: 3px;
+            text-align: center;
+        }
+
+        /* each line for a break */
+        .break {
+            position: relative;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        /* basic style for a dot/circle */
+        .dot {
+            display: inline-block;
+            margin-top: 5px;
+            border-radius: 50%;
+            opacity: 0.6;
+        }
+
+        /* the label for the dot */
+        .dot-label {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-style: italic;
+        }
+
+        /* the text color of a hyper link */
+        a {
+            color: black
+        }
+
     </style>
 </head>
 
 <body>
     <div id="map"></div>
+    <div id="legend"></div>
     <script>
         mapboxgl.accessToken =
             'pk.eyJ1IjoiamFrb2J6aGFvIiwiYSI6ImNpcms2YWsyMzAwMmtmbG5icTFxZ3ZkdncifQ.P9MBej1xacybKcDN_jehvw';
@@ -34,9 +78,9 @@
             minZoom: 4, // minimum zoom level of the map
             center: [-98.5795, 39.8283] // starting center
         });
-        const grades = [1500, 3000, 6000, 8000, 10000, 15000, 30000, 60000],
-            colors = ['rgb(247,252,253)', 'rgb(224,236,244)', 'rgb(191,211,230)', 'rgb(158,188,218)', 'rgb(140,150,198)', 'rgb(140,107,177)', 'rgb(136,65,157)', 'rgb(129,15,124)'],
-            radii = [2, 4, 8, 10, 12, 15, 20, 25];
+        const grades = [500, 1500, 3000, 6000, 8000, 10000, 15000, 30000, 60000],
+            colors = ['rgb(247,252,253)', 'rgb(224,236,244)', 'rgb(191,211,230)', 'rgb(158,188,218)', 'rgb(140,150,198)', 'rgb(140,107,177)', 'rgb(136,65,157)', 'rgb(129,15,124)', 'rgb(77,0,75)'],
+            radii = [1, 4, 8, 10, 12, 15, 20, 25, 30];
         //load data to the map as new layers.
         //map.on('load', function loadingData() {
         map.on('load', () => { //simplifying the function statement: arrow with brackets to define a function
@@ -45,7 +89,7 @@
             // add a source of the data and then add the layer out of the source
             map.addSource('cases', {
                 type: 'geojson',
-                data: 'us-covid-2020-counts.geojson'
+                data: 'assets/us-covid-2020-counts.json'
             });
             map.addLayer({
                 'id': 'counts-point',
@@ -93,6 +137,36 @@
                     .addTo(map);
             });
         });
+        // create legend object, it will anchor to the div element with the id legend.
+        const legend = document.getElementById('legend');
+
+        //set up legend grades and labels
+        var labels = ['<strong>Number of cases</strong>'], vbreak;
+        //iterate through grades and create a scaled circle and label for each
+        for (var i = 0; i < grades.length; i++) {
+            vbreak = grades[i];
+            // you need to manually adjust the radius of each dot on the legend 
+            // in order to make sure the legend can be properly referred to the dot on the map.
+            //dot_radius = 1.5 * radii[i];
+            let dot_radius = i == 0 ? 3 : 1.5 * radii[i]; // Set a larger radius for the first dot (less than 500 cases)
+            // let dot_radius;
+            // if (i === 0) {
+            //     dot_radius = 10; // Set a larger radius for the first dot (less than 500 cases)
+            // } else {
+            //     dot_radius = 1.5 * radii[i];
+            // }
+            labels.push(
+                '<p class="break"><i class="dot" style="background:' + colors[i] + '; width: ' + dot_radius +
+                'px; height: ' +
+                dot_radius + 'px; "></i> <span class="dot-label" style="top: ' + dot_radius / 2 + 'px;">' + vbreak +
+                '</span></p>');
+        }
+
+        const source =
+            '<p style="text-align: right; font-size:8pt">Source: <a href="https://github.com/nytimes/covid-19-data.git">New York Times</a></p>';
+
+        // combine all the html codes.
+        legend.innerHTML = labels.join('') + source;
     </script>
 
 </body>
