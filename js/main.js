@@ -5,7 +5,7 @@ mapboxgl.accessToken =
             style: 'mapbox://styles/mapbox/dark-v10',
             zoom: 1, // starting zoom
             minZoom: 3.8, // minimum zoom level of the map
-            center: [-96.5795, 39.8283] // starting center
+            center: [-100, 40] // starting center
         });
         const grades = [500, 1500, 3000, 6000, 8000, 10000, 15000, 30000, 60000],
             colors = ['rgb(247,252,253)', 'rgb(224,236,244)', 'rgb(191,211,230)', 'rgb(158,188,218)', 'rgb(140,150,198)', 'rgb(140,107,177)', 'rgb(136,65,157)', 'rgb(129,15,124)', 'rgb(77,0,75)'],

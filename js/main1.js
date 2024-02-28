@@ -4,7 +4,7 @@ mapboxgl.accessToken =
         const map = new mapboxgl.Map({
                 container: 'map', // container ID
                 style: 'mapbox://styles/mapbox/light-v10', // style URL
-                zoom: 3.5, // starting zoom
+                zoom: 3.8, // starting zoom
                 center: [-100, 40] // starting center
             }
         );
@@ -33,17 +33,17 @@ mapboxgl.accessToken =
                         '#bfd3e6',   // stop_output_2
                         40,          // stop_input_2
                         '#9ebcda',   // stop_output_3
-                        50,         // stop_input_3
+                        50,          // stop_input_3
                         '#8c96c6',   // stop_output_4
-                        60,         // stop_input_4
+                        60,          // stop_input_4
                         '#8c6bb1',   // stop_output_5
-                        70,         // stop_input_5
+                        70,          // stop_input_5
                         '#88419d',   // stop_output_6
-                        80,        // stop_input_6
-                        "#810f7c",    // stop_output_7
-                        90,         // stop_input_7
+                        80,          // stop_input_6
+                        "#810f7c",   // stop_output_7
+                        90,          // stop_input_7
                         '#4d004b',   // stop_output_8
-                        100,         // stop_input_8
+                                  // stop_input_8
                     ],
                     'fill-outline-color': '#BBBBBB',
                     'fill-opacity': 0.7,
@@ -56,8 +56,11 @@ mapboxgl.accessToken =
                     layers: ['rateData-layer']
                 });
                 document.getElementById('text-description').innerHTML = info.length ?
-                    `<h3>${info[0].properties.county}</h3><h3>${info[0].properties.state}</h3><p><strong><em>${info[0].properties.rates}</strong>%</em></p>` :
-                    `<p>Hover over a state!</p>`;
+                    `<h3>${info[0].properties.county}, ${info[0].properties.state}</h3>` +
+                    `<p><strong><em>${info[0].properties.rates}</strong>%</em></p>` +
+                    `<p>Cases: ${info[0].properties.cases}</p>` + 
+                    `<p>Population: ${info[0].properties.pop18}</p>` :
+                    `<p>Hover over a county!</p>`;
             });
         
             // legend
@@ -85,7 +88,7 @@ mapboxgl.accessToken =
             ];
         
             const legend = document.getElementById('legend');
-            legend.innerHTML = "<b>COVID-19 rates of cases in each location<br>(number of cases/total population)</b><br><br>";
+            legend.innerHTML = "<b>COVID-19 rates<br>(cases per 1000 residents)</b><br><br>";
         
             layers.forEach((layer, i) => {
                 const color = colors[i];
