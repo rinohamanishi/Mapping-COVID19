@@ -4,10 +4,12 @@
 This project aims to create thematic maps using COVID-19 data from 2020. The data includes case and death counts, which have been processed to calculate case rates per thousand residents. The maps will visualize these rates and case counts at the county level in the United States.
 
 ## Map Overview
-### [Choropleth Map (COVID-19 Rates)]([url](https://rinohamanishi.github.io/Mapping-COVID19/map1.html))
+### Choropleth Map (COVID-19 Rates)
+[link]([url](https://rinohamanishi.github.io/Mapping-COVID19/map1.html))
 <img width="1410" alt="Screenshot 2024-02-27 at 23 24 43" src="https://github.com/rinohamanishi/Mapping-COVID19/assets/131402306/b2b8e4cd-56b7-4d3b-9328-6b5d3b4a1771">
 
-### [Proportional Symbols Map (COVID-19 Cases)]([url](https://rinohamanishi.github.io/Mapping-COVID19/map2.html))
+### Proportional Symbols Map (COVID-19 Cases)
+[link]([url](https://rinohamanishi.github.io/Mapping-COVID19/map2.html))
 <img width="1417" alt="Screenshot 2024-02-27 at 23 28 11" src="https://github.com/rinohamanishi/Mapping-COVID19/assets/131402306/d0a042fa-4e5a-488f-a761-07928f7e7e48">
 
 ## Primary Functions
