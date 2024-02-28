@@ -89,6 +89,9 @@ mapboxgl.accessToken =
         
             const legend = document.getElementById('legend');
             legend.innerHTML = "<b>COVID-19 rates<br>(cases per 1000 residents)</b><br><br>";
+
+            const source = '<p style="font-size:8pt">Source: <a href="https://github.com/nytimes/covid-19-data.git">New York Times</a></p>';
+            legend.innerHTML += source;
         
             layers.forEach((layer, i) => {
                 const color = colors[i];
@@ -103,6 +106,7 @@ mapboxgl.accessToken =
                 item.appendChild(value);
                 legend.appendChild(item);
             });
+
         }
         
         geojsonFetch();
